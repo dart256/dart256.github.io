@@ -12,6 +12,8 @@
             --text-bright: #f0f6fc;
             --border-muted: #30363d;
             --electric-blue: #3742fa;
+            --vibrant-orange: #ff6348;
+            --hot-red: #ff4757;
             --vibrant-green: #2ed573;
             --pure-white: #ffffff;
             --btn-gray: #30363d;
@@ -38,7 +40,8 @@
             height: 100%;
             background: 
                 radial-gradient(circle at 20% 50%, rgba(55, 66, 250, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(46, 213, 115, 0.15) 0%, transparent 50%);
+                radial-gradient(circle at 80% 80%, rgba(46, 213, 115, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(255, 99, 72, 0.1) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
             pointer-events: none;
             z-index: 0;
@@ -68,9 +71,80 @@
             100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
         }
 
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-muted);
+            z-index: 100;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        nav .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--electric-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--electric-blue);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--electric-blue);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
         header { 
             position: relative;
-            padding: 120px 20px 80px; 
+            padding: 180px 20px 100px; 
             background: radial-gradient(circle at center, #1c2128 0%, var(--bg-dark) 100%);
             border-bottom: 1px solid var(--border-muted);
             text-align: center;
@@ -97,10 +171,10 @@
 
         header h1 { 
             margin: 0; 
-            font-size: 3.5rem; 
+            font-size: 3.8rem; 
             color: var(--electric-blue); 
             text-transform: uppercase;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             text-shadow: 0 0 30px rgba(55, 66, 250, 0.6);
             animation: titlePulse 4s ease-in-out infinite;
             position: relative;
@@ -113,7 +187,7 @@
         }
 
         header p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-top: 15px;
             color: var(--text-main);
             opacity: 0;
@@ -125,10 +199,88 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Stats Section */
+        .stats {
+            max-width: 1200px;
+            margin: -40px auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-muted);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--electric-blue);
+            box-shadow: 0 10px 30px rgba(55, 66, 250, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--electric-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section Headers */
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-bright);
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 40px;
+        }
+
         .container { 
             max-width: 1200px; 
             margin: auto; 
-            padding: 50px 20px; 
+            padding: 20px; 
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
@@ -175,8 +327,11 @@
             transition: opacity 0.4s ease;
         }
 
-        .game-card.blue::before { 
-            background: linear-gradient(45deg, var(--electric-blue), #667eea, var(--electric-blue));
+        .game-card.orange::before { 
+            background: linear-gradient(45deg, var(--vibrant-orange), #ffa502, var(--vibrant-orange));
+        }
+        .game-card.red::before { 
+            background: linear-gradient(45deg, var(--hot-red), #ff6b81, var(--hot-red));
         }
         .game-card.white::before { 
             background: linear-gradient(45deg, var(--pure-white), #a8b9ff, var(--pure-white));
@@ -195,9 +350,14 @@
             to { transform: rotate(360deg); }
         }
 
-        .game-card.blue:hover { 
-            border-color: var(--electric-blue); 
-            box-shadow: 0 20px 60px rgba(55, 66, 250, 0.3), 0 0 40px rgba(55, 66, 250, 0.2);
+        .game-card.orange:hover { 
+            border-color: var(--vibrant-orange); 
+            box-shadow: 0 20px 60px rgba(255, 99, 72, 0.3), 0 0 40px rgba(255, 99, 72, 0.2);
+            transform: translateY(-12px) scale(1.02);
+        }
+        .game-card.red:hover { 
+            border-color: var(--hot-red); 
+            box-shadow: 0 20px 60px rgba(255, 71, 87, 0.3), 0 0 40px rgba(255, 71, 87, 0.2);
             transform: translateY(-12px) scale(1.02);
         }
         .game-card.white:hover { 
@@ -245,12 +405,9 @@
             transition: color 0.3s ease;
         }
 
-        .game-card:hover h2 {
-            color: var(--electric-blue);
-        }
-        .game-card.green:hover h2 {
-            color: var(--vibrant-green);
-        }
+        .game-card.orange:hover h2 { color: var(--vibrant-orange); }
+        .game-card.red:hover h2 { color: var(--hot-red); }
+        .game-card.green:hover h2 { color: var(--vibrant-green); }
 
         p { 
             font-size: 0.95rem; 
@@ -341,6 +498,70 @@
             border-color: #6e7681;
         }
 
+        /* About/Contact Section */
+        .about-section {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-section h2 {
+            font-size: 2.5rem;
+            color: var(--text-bright);
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .social-btn {
+            padding: 12px 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-muted);
+            border-radius: 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            border-color: var(--electric-blue);
+            box-shadow: 0 5px 20px rgba(55, 66, 250, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-muted);
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        footer p {
+            margin: 5px 0;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
         /* Scroll indicator */
         .scroll-indicator {
             position: fixed;
@@ -382,17 +603,32 @@
         @media (max-width: 768px) {
             header h1 { font-size: 2.5rem; letter-spacing: 3px; }
             .container { gap: 20px; padding: 30px 15px; }
+            nav ul { gap: 15px; }
+            nav a { font-size: 0.85rem; }
+            .stats { grid-template-columns: repeat(2, 1fr); margin-top: 20px; }
         }
 
     </style>
 </head>
 <body>
 
+<!-- Navigation -->
+<nav id="navbar">
+    <div class="nav-container">
+        <div class="logo">NEW AGE</div>
+        <ul>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
 <!-- Floating particles -->
 <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
 <div class="particle" style="left: 30%; animation-delay: 3s; background: rgba(46, 213, 115, 0.5);"></div>
 <div class="particle" style="left: 50%; animation-delay: 6s;"></div>
-<div class="particle" style="left: 70%; animation-delay: 9s; background: rgba(46, 213, 115, 0.5);"></div>
+<div class="particle" style="left: 70%; animation-delay: 9s; background: rgba(255, 99, 72, 0.5);"></div>
 <div class="particle" style="left: 90%; animation-delay: 12s;"></div>
 
 <header>
@@ -400,11 +636,32 @@
     <p>Premium Gaming Experiences with Attitude.</p>
 </header>
 
+<!-- Stats Section -->
+<div class="stats">
+    <div class="stat-card">
+        <span class="stat-number">4</span>
+        <span class="stat-label">Games Released</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">10K+</span>
+        <span class="stat-label">Downloads</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">2025</span>
+        <span class="stat-label">Established</span>
+    </div>
+</div>
+
 <div class="scroll-indicator"></div>
+
+<div class="section" id="games">
+    <h2 class="section-title">Our Games</h2>
+    <p class="section-subtitle">Arcade classics reimagined with modern attitude</p>
+</div>
 
 <div class="container">
 
-    <div class="game-card blue" style="border-top: 5px solid var(--electric-blue);">
+    <div class="game-card orange" style="border-top: 5px solid var(--vibrant-orange);">
         <div class="gallery">
             <img src="images/Image1.jpg" alt="Dash 1">
             <img src="images/Image2.jpg" alt="Dash 2">
@@ -418,7 +675,7 @@
         </div>
     </div>
 
-    <div class="game-card blue" style="border-top: 5px solid var(--electric-blue);">
+    <div class="game-card red" style="border-top: 5px solid var(--hot-red);">
         <div class="gallery">
             <img src="images/Zip.jpg" alt="Zip 1">
             <img src="images/Zip2.jpg" alt="Zip 2">
@@ -454,6 +711,50 @@
     </div>
 
 </div>
+
+<!-- About Section -->
+<div class="about-section" id="about">
+    <h2>About New Age Studios</h2>
+    <p>We're an indie game studio focused on creating fast-paced, arcade-style games that don't take themselves too seriously. Our games combine tight gameplay mechanics with personality and attitude. Whether you're dodging obstacles, defending biscuits, or battling in arena cars, we bring the fun.</p>
+    
+    <div class="social-links" id="contact">
+        <a href="https://mj2games.itch.io" class="social-btn">Itch.io</a>
+        <a href="#" class="social-btn">Discord</a>
+        <a href="#" class="social-btn">Twitter</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2025 New Age Studios. All rights reserved.</p>
+    <p>Built with attitude. Played with passion.</p>
+</footer>
+
+<script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
