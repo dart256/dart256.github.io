@@ -3,65 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Age Studios | Pro Gaming</title>
+    <title>New Age Studios | Premium Gaming</title>
     <style>
         :root {
-            /* Professional Electric Palette */
             --bg-dark: #0d1117;
             --card-bg: #161b22;
             --text-main: #c9d1d9;
             --text-bright: #f0f6fc;
             --border-muted: #30363d;
-            
-            /* Action Colors */
             --electric-blue: #3742fa;
             --vibrant-green: #2ed573;
             --pure-white: #ffffff;
             --btn-gray: #30363d;
         }
 
+        * { box-sizing: border-box; }
+
         body { 
             background: var(--bg-dark); 
             color: var(--text-main); 
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; 
+            font-family: 'Inter', 'Segoe UI', sans-serif; 
             margin: 0; 
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Header Styling */
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(55, 66, 250, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(46, 213, 115, 0.15) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.3; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.6; transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(55, 66, 250, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
+        }
+
         header { 
-            padding: 80px 20px; 
+            position: relative;
+            padding: 120px 20px 80px; 
             background: radial-gradient(circle at center, #1c2128 0%, var(--bg-dark) 100%);
             border-bottom: 1px solid var(--border-muted);
             text-align: center;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
+            transform: translateX(-50%);
+            animation: lineGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes lineGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; box-shadow: 0 0 20px var(--electric-blue); }
         }
 
         header h1 { 
             margin: 0; 
-            font-size: 3rem; 
+            font-size: 3.5rem; 
             color: var(--electric-blue); 
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 20px rgba(55, 66, 250, 0.4);
+            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(55, 66, 250, 0.6);
+            animation: titlePulse 4s ease-in-out infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 30px rgba(55, 66, 250, 0.6); }
+            50% { text-shadow: 0 0 50px rgba(55, 66, 250, 0.9), 0 0 80px rgba(55, 66, 250, 0.5); }
         }
 
         header p {
-            color: #8b949e;
             font-size: 1.1rem;
-            margin-top: 10px;
+            margin-top: 15px;
+            color: var(--text-main);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
         }
 
-        /* Grid Container */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .container { 
             max-width: 1200px; 
             margin: auto; 
             padding: 50px 20px; 
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Refactored Game Card */
         .game-card { 
             background: var(--card-bg); 
             border: 1px solid var(--border-muted); 
@@ -69,24 +143,87 @@
             padding: 20px; 
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardReveal 0.6s ease forwards;
         }
 
-        /* Dynamic Glow Effects based on border color */
-        .game-card.blue:hover { border-color: var(--electric-blue); box-shadow: 0 10px 30px rgba(55, 66, 250, 0.2); }
-        .game-card.white:hover { border-color: var(--pure-white); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1); }
-        .game-card.green:hover { border-color: var(--vibrant-green); box-shadow: 0 10px 30px rgba(46, 213, 115, 0.2); }
+        .game-card:nth-child(1) { animation-delay: 0.1s; }
+        .game-card:nth-child(2) { animation-delay: 0.2s; }
+        .game-card:nth-child(3) { animation-delay: 0.3s; }
+        .game-card:nth-child(4) { animation-delay: 0.4s; }
 
-        .game-card:hover { transform: translateY(-8px); }
+        @keyframes cardReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Media / Gallery Styling */
+        /* Glowing border effect on hover */
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, transparent);
+            border-radius: 16px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .game-card.blue::before { 
+            background: linear-gradient(45deg, var(--electric-blue), #667eea, var(--electric-blue));
+        }
+        .game-card.white::before { 
+            background: linear-gradient(45deg, var(--pure-white), #a8b9ff, var(--pure-white));
+        }
+        .game-card.green::before { 
+            background: linear-gradient(45deg, var(--vibrant-green), #7bed9f, var(--vibrant-green));
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .game-card.blue:hover { 
+            border-color: var(--electric-blue); 
+            box-shadow: 0 20px 60px rgba(55, 66, 250, 0.3), 0 0 40px rgba(55, 66, 250, 0.2);
+            transform: translateY(-12px) scale(1.02);
+        }
+        .game-card.white:hover { 
+            border-color: var(--pure-white); 
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.15), 0 0 40px rgba(255, 255, 255, 0.1);
+            transform: translateY(-12px) scale(1.02);
+        }
+        .game-card.green:hover { 
+            border-color: var(--vibrant-green); 
+            box-shadow: 0 20px 60px rgba(46, 213, 115, 0.3), 0 0 40px rgba(46, 213, 115, 0.2);
+            transform: translateY(-12px) scale(1.02);
+        }
+
         .game-card img { 
             width: 100%; 
-            height: 200px; 
+            height: 180px; 
             object-fit: cover; 
             border-radius: 10px;
             margin-bottom: 15px;
+            transition: transform 0.4s ease, filter 0.4s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
         }
 
         .gallery {
@@ -95,40 +232,175 @@
             gap: 8px;
             margin-bottom: 15px;
         }
-        .gallery img { height: 70px; margin-bottom: 0; }
+        
+        .gallery img { 
+            height: 65px; 
+            margin-bottom: 0;
+        }
 
-        h2 { margin: 10px 0; font-size: 1.5rem; color: var(--text-bright); }
-        p { font-size: 0.95rem; color: #8b949e; flex-grow: 1; }
+        h2 { 
+            margin: 10px 0; 
+            font-size: 1.5rem; 
+            color: var(--text-bright);
+            transition: color 0.3s ease;
+        }
 
-        /* Unified Button System */
-        .btn-group { display: flex; gap: 12px; margin-top: 20px; }
+        .game-card:hover h2 {
+            color: var(--electric-blue);
+        }
+        .game-card.green:hover h2 {
+            color: var(--vibrant-green);
+        }
+
+        p { 
+            font-size: 0.95rem; 
+            color: #8b949e; 
+            flex-grow: 1;
+            transition: color 0.3s ease;
+        }
+
+        .game-card:hover p {
+            color: var(--text-main);
+        }
+
+        .date-tag { 
+            font-size: 0.8rem; 
+            color: #58a6ff; 
+            margin-bottom: 10px; 
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(88, 166, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-group { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 20px; 
+        }
 
         .btn { 
             flex: 1;
-            padding: 12px; 
+            padding: 13px 10px; 
             text-align: center;
             text-decoration: none; 
             border-radius: 8px; 
             font-size: 0.9rem;
             font-weight: 600;
-            transition: all 0.2s ease;
-            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-primary { background: var(--electric-blue); color: white; }
-        .btn-primary:hover { filter: brightness(1.2); }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
 
-        .btn-secondary { background: var(--btn-gray); color: var(--text-main); border: 1px solid #444c56; }
-        .btn-secondary:hover { background: #444c56; color: white; }
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--electric-blue), #667eea);
+            color: white;
+            box-shadow: 0 4px 15px rgba(55, 66, 250, 0.3);
+        }
+        
+        .btn-secondary { 
+            background: var(--btn-gray); 
+            color: var(--text-main); 
+            border: 1px solid #444c56; 
+        }
+        
+        .btn:hover { 
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(55, 66, 250, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: #3d444d;
+            border-color: #6e7681;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--electric-blue);
+            border-radius: 20px;
+            z-index: 10;
+            animation: fadeOut 2s ease forwards 3s;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--electric-blue);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: scrollDot 2s ease infinite;
+        }
+
+        @keyframes scrollDot {
+            0% { top: 8px; opacity: 1; }
+            50% { top: 28px; opacity: 0.5; }
+            100% { top: 8px; opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; pointer-events: none; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; letter-spacing: 3px; }
+            .container { gap: 20px; padding: 30px 15px; }
+        }
 
     </style>
 </head>
 <body>
 
+<!-- Floating particles -->
+<div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+<div class="particle" style="left: 30%; animation-delay: 3s; background: rgba(46, 213, 115, 0.5);"></div>
+<div class="particle" style="left: 50%; animation-delay: 6s;"></div>
+<div class="particle" style="left: 70%; animation-delay: 9s; background: rgba(46, 213, 115, 0.5);"></div>
+<div class="particle" style="left: 90%; animation-delay: 12s;"></div>
+
 <header>
-    <h1>New Age Studios</h1>
+    <h1>NEW AGE STUDIOS</h1>
     <p>Premium Gaming Experiences with Attitude.</p>
 </header>
+
+<div class="scroll-indicator"></div>
 
 <div class="container">
 
@@ -141,12 +413,12 @@
         <h2>Dash Attitude</h2>
         <p>A fast-paced arcade game where dodging obstacles is only half the battle. Can you survive the roasts?</p>
         <div class="btn-group">
-            <a href="#" class="btn btn-primary">Play on Itch.io</a>
-            <a href="#" class="btn btn-secondary">Download</a>
+            <a href="https://mj2games.itch.io" class="btn btn-primary"><span>Play on Itch.io</span></a>
+            <a href="https://drive.google.com/file/d/1-23sX7NAdmBGciQVaCypBRpCDaOB4HLK/view?usp=drive_link" class="btn btn-secondary"><span>Download</span></a>
         </div>
     </div>
 
-    <div class="game-card white" style="border-top: 5px solid var(--pure-white);">
+    <div class="game-card blue" style="border-top: 5px solid var(--electric-blue);">
         <div class="gallery">
             <img src="images/Zip.jpg" alt="Zip 1">
             <img src="images/Zip2.jpg" alt="Zip 2">
@@ -155,8 +427,19 @@
         <h2>Obs 1: Racing</h2>
         <p>Experience precision driving in this high-octane obstacle-dodging simulator.</p>
         <div class="btn-group">
-            <a href="#" class="btn btn-primary">Play Now</a>
-            <a href="#" class="btn btn-secondary">Details</a>
+            <a href="https://mj2games.itch.io" class="btn btn-primary"><span>Play Now</span></a>
+            <a href="https://drive.google.com/file/d/1ksdums8qaVjcEiuxOp-arNMCPe0Gp8ge/view?usp=sharing" class="btn btn-secondary"><span>Details</span></a>
+        </div>
+    </div>
+
+    <div class="game-card white" style="border-top: 5px solid var(--pure-white);">
+        <img src="images/screenshots.jpg" alt="Biscuit Defender">
+        <span class="date-tag">Uploaded: Aug 04, 2025</span>
+        <h2>Biscuit Defender 1.0</h2>
+        <p>Tower defense! Protect the circle from ants using bombs and shields. They get faster with every wave!</p>
+        <div class="btn-group">
+            <a href="https://mj2games.itch.io" class="btn btn-primary"><span>Itch.io</span></a>
+            <a href="https://drive.google.com/file/d/1UKwdbJOGlpD6YlKUoH0dog6OjAPyzt1-/" class="btn btn-secondary"><span>Download</span></a>
         </div>
     </div>
 
@@ -165,8 +448,8 @@
         <h2>Sumo Cars</h2>
         <p>Battle advanced AI in an arena-based car brawl. Last car on the platform wins!</p>
         <div class="btn-group">
-            <a href="#" class="btn btn-primary">Enter Arena</a>
-            <a href="#" class="btn btn-secondary">Manual</a>
+            <a href="https://mj2games.itch.io" class="btn btn-primary"><span>Enter Arena</span></a>
+            <a href="#" class="btn btn-secondary"><span>Manual</span></a>
         </div>
     </div>
 
