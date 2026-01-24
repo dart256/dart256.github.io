@@ -25,12 +25,12 @@
             min-height: 100vh;
         }
 
-        /* Star Backdrop */
+        /* --- HYPER-SPACE BACKDROP --- */
         .stars-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            background: radial-gradient(circle at center, #0a0c12 0%, #020408 100%);
             overflow: hidden;
         }
 
@@ -38,8 +38,17 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.5;
-            animation: moveStars linear infinite;
+            filter: drop-shadow(0 0 5px white);
+            animation: moveStars linear infinite, twinkle var(--t-duration) ease-in-out infinite;
+        }
+
+        /* SHOOTING STAR STYLE */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(-45deg, var(--neon-cyan), rgba(0, 0, 0, 0));
+            filter: drop-shadow(0 0 6px var(--neon-cyan));
+            animation: shoot 3s ease-in-out infinite;
         }
 
         @keyframes moveStars {
@@ -47,13 +56,26 @@
             to { transform: translateY(-100vh); }
         }
 
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0) rotate(-45deg) scale(0); opacity: 0; }
+            10% { opacity: 1; scale(1); }
+            20% { transform: translateX(-500px) translateY(500px) rotate(-45deg) scale(1); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* --- UI COMPONENTS --- */
         nav {
             position: fixed;
             top: 0; width: 100%;
             padding: 20px 0;
-            background: rgba(2, 4, 8, 0.8);
+            background: rgba(2, 4, 8, 0.85);
             backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
             z-index: 1000;
         }
 
@@ -62,28 +84,45 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo { font-weight: 700; letter-spacing: 5px; color: var(--neon-cyan); text-transform: uppercase; }
+        .logo { 
+            font-weight: 700; 
+            letter-spacing: 5px; 
+            color: var(--neon-cyan); 
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
         nav ul { display: flex; gap: 30px; list-style: none; }
         nav a { color: var(--text-bright); text-decoration: none; font-size: 0.8rem; transition: 0.3s; }
+        nav a:hover { color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
 
         .hero { padding: 180px 20px 60px; text-align: center; }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); color: var(--text-bright); margin-bottom: 10px; }
+        .hero h1 { 
+            font-size: clamp(2.5rem, 8vw, 4.5rem); 
+            color: var(--text-bright); 
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
         .hero p { color: var(--neon-cyan); letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; }
 
         .section { max-width: 1200px; margin: 0 auto 80px; padding: 0 20px; }
         .main-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
 
         .card {
-            background: rgba(10, 12, 18, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(10, 12, 18, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             padding: 25px;
             backdrop-filter: blur(10px);
-            transition: 0.4s;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex; flex-direction: column;
         }
 
-        .card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); }
+        .card:hover { 
+            border-color: var(--neon-cyan); 
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.15);
+        }
 
         .card img {
             width: 100%; height: 200px;
@@ -91,25 +130,25 @@
             margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .alien-shooter { grid-column: span 7; border-left: 4px solid var(--neon-purple); }
-        .dash-attitude { grid-column: span 5; }
         .small-game { grid-column: span 4; }
-        .wide-game { grid-column: span 12; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
 
         .btn-group { display: flex; gap: 10px; margin-top: auto; padding-top: 15px; }
         .btn {
             padding: 10px 15px; border-radius: 8px; text-decoration: none;
             font-weight: 700; font-size: 0.75rem; text-transform: uppercase; text-align: center; flex: 1;
+            transition: 0.3s;
         }
-        .btn-cyan { background: var(--neon-cyan); color: #000; }
         .btn-outline { border: 1px solid var(--text-main); color: var(--text-bright); }
+        .btn:hover { filter: brightness(1.2); transform: scale(1.05); }
 
         .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
-        .info-panel, .contact-panel { padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02); }
+        .info-panel, .contact-panel { 
+            padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05); 
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
+        }
 
         @media (max-width: 900px) {
-            .alien-shooter, .dash-attitude, .small-game, .wide-game { grid-column: span 12; }
-            .wide-game { grid-template-columns: 1fr; }
+            .small-game { grid-column: span 12; }
             .about-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -140,36 +179,34 @@
         <div class="card small-game">
             <img src="images/Invaders.jpg" alt="alien-shooter">
             <h3>Alien Shooter</h3>
-            <p>Fast-paced intergalactic survival. Blast through waves of invaders with high-tech weaponry.</p>
+            <p>Fast-paced survival with intergalactic tech.</p>
             <div class="btn-group">
-                <a href="https://drive.google.com/file/d/1ahRi1p3xhoPhH2DSzCcHW73btL9pZDut/view?usp=sharing" class="btn btn-outline">Download</a>
+                <a href="https://drive.google.com/file/d/1ahRi1p3xhoPhH2DSzCcHW73btL9pZDut/view" class="btn btn-outline">Download</a>
             </div>
         </div>
 
-        
         <div class="card small-game">
             <img src="images/Tappy.jpg" alt="Tappy">
             <h3>Coco</h3>
-            <p>Dodge Clifs and survive as long as you can.</p>
+            <p>Dodge Cliffs and survive as long as you can.</p>
             <div class="btn-group">
-                <a href="https://drive.google.com/file/d/1qyDsSmNSvykU4BJiNEC5buA02rkLc2KH/view?usp=sharing" class="btn btn-outline">Download</a>
+                <a href="https://drive.google.com/file/d/1qyDsSmNSvykU4BJiNEC5buA02rkLc2KH/view" class="btn btn-outline">Download</a>
             </div>
         </div>
-
 
         <div class="card small-game">
             <img src="images/Image1.jpg" alt="Dash Attitude">
             <h3>Dash Attitude</h3>
-            <p>A high-energy runner. Avoid obstacles and handle the roasts.</p>
+            <p>Runner with roasts. Don't let your ego get hit.</p>
             <div class="btn-group">
                 <a href="https://drive.google.com/file/d/1-23sX7NAdmBGciQVaCypBRpCDaOB4HLK/view" class="btn btn-outline">Download</a>
             </div>
         </div>
 
         <div class="card small-game">
-            <img src="images/Coco1.jpg" alt="Coco">
-            <h3>Coco</h3>
-            <p>Dodge pipes and survive as long as you can.</p>
+            <img src="images/Coco1.jpg" alt="Coco Classic">
+            <h3>Coco: Pipes</h3>
+            <p>The classic arcade pipe challenge.</p>
             <div class="btn-group">
                 <a href="https://drive.google.com/file/d/1i-k6Rg63KvF3QTk57a-MSKCmm5yVXBI6/view" class="btn btn-outline">Download</a>
             </div>
@@ -178,28 +215,28 @@
         <div class="card small-game">
             <img src="images/Zip.jpg" alt="Obs Racing">
             <h3>Obs 1: Racing</h3>
-            <p>High-octane precision driving simulator.</p>
+            <p>Precision driving at terminal speeds.</p>
             <div class="btn-group">
                 <a href="https://drive.google.com/file/d/1ksdums8qaVjcEiuxOp-arNMCPe0Gp8ge/view" class="btn btn-outline">Download</a>
             </div>
         </div>
-        
 
         <div class="card small-game">
             <img src="images/Pong.jpg" alt="Pong">
             <h3>Pong: Physics</h3>
-            <p>Classic reimagined with Unity physics.</p>
+            <p>Authentic Unity physics reimagined.</p>
             <div class="btn-group">
                 <a href="https://drive.google.com/file/d/10EF7dhE0KELQae7RlbDuJsGQv5g6FsQc/view" class="btn btn-outline">Download</a>
             </div>
         </div>
-        <div class="card small-game">
-            <img src="images/screenshots.jpg" alt="Biscuit Defender" style="height:300px;">
+
+        <div class="card small-game" style="grid-column: span 12; display: flex; flex-direction: row; align-items: center; gap: 30px;">
+            <img src="images/screenshots.jpg" alt="Biscuit Defender" style="height: 250px; width: 40%; margin-bottom: 0;">
             <div>
                 <h3>Biscuit Defender</h3>
-                <p>Strategic tower defense. Protect the circle from ants using bombs and shields.</p>
+                <p>Strategic tower defense. Protect the circle core.</p>
                 <div class="btn-group">
-                    <a href="https://drive.google.com/file/d/1UKwdbJOGlpD6YlKUoH0dog6OjAPyzt1-/view?usp=sharing" class="btn btn-outline">Download</a>
+                    <a href="https://drive.google.com/file/d/1UKwdbJOGlpD6YlKUoH0dog6OjAPyzt1-/view" class="btn btn-outline">Download</a>
                 </div>
             </div>
         </div>
@@ -210,17 +247,15 @@
     <div class="about-grid">
         <div class="info-panel">
             <h2>The Developer</h2>
-            <p>I am a game developer and software developer focused on high-quality, interactive experiences. I specialize in Unity physics and arcade mechanics with attitude. Visit
-            my Youtube Channel for video references.</p>
+            <p>Focusing on high-quality Unity physics and arcade mechanics. Visit my YouTube Channel for video references.</p>
         </div>
         
         <div class="contact-panel" id="contact">
             <h3>Comm-Link</h3>
-            <p style="margin-bottom:15px; font-size:0.85rem;">Contact for collaborations or inquiries:</p>
             <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
                 <a href="mailto:mdada01542@gmail.com" style="color: var(--neon-cyan); text-decoration: none;">📧 mdada01542@gmail.com</a>
                 <a href="https://wa.me/2348152063672" style="color: var(--neon-cyan); text-decoration: none;">📱 WhatsApp: 08152063672</a>
-                <a href="https://mj2games.itch.io/" style="color: var(--neon-cyan); text-decoration: none;">📱 itch.io:https://mj2games.itch.io/ </a>
+                <a href="https://mj2games.itch.io/" style="color: var(--neon-cyan); text-decoration: none;">🎮 itch.io/mj2games</a>
                 <a href="https://youtube.com/channel/UCbMKVnO4Mh_UOTVn-gJfiBg" style="color: var(--neon-cyan); text-decoration: none;">📺 YouTube Channel</a>
             </div>
         </div>
@@ -229,18 +264,44 @@
 
 <script>
     const container = document.getElementById('stars');
-    for (let i = 0; i < 150; i++) {
+    const colors = ['#ffffff', '#00f2ff', '#7000ff', '#ffffff']; 
+
+    // Create Background Stars
+    for (let i = 0; i < 200; i++) {
         const star = document.createElement('div');
         star.className = 'star';
-        const size = Math.random() * 2;
+        const size = Math.random() * 3 + 1;
         star.style.width = size + 'px';
         star.style.height = size + 'px';
         star.style.left = Math.random() * 100 + 'vw';
         star.style.top = Math.random() * 100 + 'vh';
-        star.style.animationDuration = (Math.random() * 30 + 10) + 's';
-        star.style.animationDelay = -(Math.random() * 30) + 's';
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        star.style.background = color;
+        star.style.boxShadow = `0 0 ${Math.random() * 10}px ${color}`;
+        const moveDuration = (Math.random() * 40 + 20) + 's';
+        const twinkleDuration = (Math.random() * 3 + 2) + 's';
+        star.style.animationDuration = `${moveDuration}, ${twinkleDuration}`;
+        star.style.setProperty('--t-duration', twinkleDuration);
+        star.style.animationDelay = -(Math.random() * 40) + 's';
         container.appendChild(star);
     }
+
+    // Create Shooting Stars
+    function createShootingStar() {
+        const sStar = document.createElement('div');
+        sStar.className = 'shooting-star';
+        sStar.style.left = Math.random() * 100 + 'vw';
+        sStar.style.top = Math.random() * 50 + 'vh';
+        sStar.style.width = (Math.random() * 150 + 100) + 'px';
+        sStar.style.animationDelay = (Math.random() * 5) + 's';
+        container.appendChild(sStar);
+        
+        // Cleanup to prevent memory leaks
+        setTimeout(() => { sStar.remove(); }, 8000);
+    }
+
+    // Launch shooting stars every 4 seconds
+    setInterval(createShootingStar, 4000);
 </script>
 
 </body>
